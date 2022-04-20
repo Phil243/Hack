@@ -4,13 +4,27 @@ import { useState, useEffect } from "react";
 
 function App() {
   const [articles, setArticles] = useState(null);
+  const [searchInput, setSearchInput] = useState(null);
+
+
+  function handleClick(event) {
+    event.preventDefault();
+    //console.log('I was clicked');
+      //console.log(event);
+     // console.log(document.querySelector('input').value);
+
+     fetch(`https://hn.algolia.com/api/v1/search?query=${document.querySelector('input').value}`)
+     .then((res)=>res.json())
+     .then((data)=> {setArticles(data.hits);
+      console.log(data.hits);})     
+  };
 
 
    useEffect(() => {
      fetch("https://hn.algolia.com/api/v1/search?query=react")
        .then((res) => res.json())
        .then((data) => {
-         console.log(data.hits);
+         //console.log(data.hits);
          setArticles(data.hits);
        })
        .catch((err) => console.log(err));
@@ -23,6 +37,10 @@ function App() {
 
     <div className="App">
     <h1>Ahoy!</h1>
+    <form>
+    <input type='text' className='search-bar'></input>
+    <button className='button' onClick={handleClick}>Submit search</button>
+    </form>
 
       {/* Conditional Rendering mit ternary operator:
       Wenn "articles" truthy ist (also einen Wert hat)
@@ -64,12 +82,16 @@ export default App;
 
 // Level 1
 // # Load mock news from a JSON file (json file here);
-//  or load news directly from the HN API about a pre-set topic (e.g: React)
+//  or load news directly from the HN API about a pre-set topic (e.g: React)---x
 
-    //in console .url delivers the respective link to the article, use anchors!
+    //in console .url delivers the respective link to the article, use anchors!---x
 
 // # When this is done and working, create a search bar,
 //  and allow the user to search for any topic (search input + “Search” button)
+
+        // search bar: input field, submit button -> form
+        // use new state, initially 'null', if content (truthy) render corresponding search items instead
+        // of initial 'react' search from useEffect. -> ternary logic
 
     // state/effect statements for fetching the api/rendering---x
     // ternary operator to show either loading or site---x
