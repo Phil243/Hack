@@ -33,11 +33,13 @@ function App() {
   return (
 <>
     <div className="App">
-    <h1>Ahoy!</h1>
+    <h1 className='heading'>Hacker News</h1>
+    <div className='allArticles search'>
     <form>
-    <input type='text' className='search-bar'></input>
-    <button className='button btn' onClick={handleClick}>Submit search</button>
+    <input type='text' placeholder='What are you looking for...' className='searchBar form-control'></input>
+    <button className='button btn btn-dark' onClick={handleClick}>Submit search</button>
     </form>
+    </div>
     <div className='allArticles'>
       {/* Conditional Rendering mit ternary operator:
       Wenn "articles" truthy ist (also einen Wert hat)
@@ -45,11 +47,15 @@ function App() {
       andernfalls zeige den String "Loading" */}
       {articles
         ? articles.map((article) => (
-            <div key={article.objectID} className='article-div'>
-              <h2 className='article-header'>{article.title}</h2>
-              <p className='article-author'>{article.author}</p>
-              <p className='article-link'><a href={article.url}>{article.url}</a></p>
+          <>
+            <div key={article.objectID} className='articleDiv'>
+              <h3 className='articleHeader'>{article.title}</h3>
+              <p className='articleAuthor'>by {article.author}</p>
+              <p className='articleLink'><a href={article.url}><button className='btn btn-dark'>Read the Article</button></a></p>
+              
             </div>
+            <br></br>
+            </>
           ))
         : "Loading....."}
       </div>
