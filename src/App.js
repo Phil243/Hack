@@ -24,7 +24,6 @@ function App() {
     <div className="App">
     <h1>Ahoy!</h1>
 
-    <h1>Let's fetch</h1>
       {/* Conditional Rendering mit ternary operator:
       Wenn "articles" truthy ist (also einen Wert hat)
       wollen wir das div mit den Inhalten aus der Response zeigen
@@ -34,6 +33,7 @@ function App() {
             <div key={article.objectID}>
               <h2>{article.title}</h2>
               <p>{article.author}</p>
+              <p><a href={article.url}>{article.url}</a></p>
             </div>
           ))
         : "Loading....."}
@@ -65,11 +65,14 @@ export default App;
 // Level 1
 // # Load mock news from a JSON file (json file here);
 //  or load news directly from the HN API about a pre-set topic (e.g: React)
+
+    //in console .url delivers the respective link to the article, use anchors!
+
 // # When this is done and working, create a search bar,
 //  and allow the user to search for any topic (search input + “Search” button)
 
-    // state/effect statements for fetching the api/rendering
-    // ternary operator to show either loading or site
+    // state/effect statements for fetching the api/rendering---x
+    // ternary operator to show either loading or site---x
     // nested ternary so either site or something else shows?
 
 // (Bonus) Level 2:
