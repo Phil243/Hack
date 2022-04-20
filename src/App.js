@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 
 function App() {
   const [articles, setArticles] = useState(null);
-  const [searchInput, setSearchInput] = useState(null);
 
 
   function handleClick(event) {
@@ -33,29 +32,27 @@ function App() {
 
   return (
 <>
-
-
     <div className="App">
     <h1>Ahoy!</h1>
     <form>
     <input type='text' className='search-bar'></input>
-    <button className='button' onClick={handleClick}>Submit search</button>
+    <button className='button btn' onClick={handleClick}>Submit search</button>
     </form>
-
+    <div className='allArticles'>
       {/* Conditional Rendering mit ternary operator:
       Wenn "articles" truthy ist (also einen Wert hat)
       wollen wir das div mit den Inhalten aus der Response zeigen
       andernfalls zeige den String "Loading" */}
       {articles
         ? articles.map((article) => (
-            <div key={article.objectID}>
-              <h2>{article.title}</h2>
-              <p>{article.author}</p>
-              <p><a href={article.url}>{article.url}</a></p>
+            <div key={article.objectID} className='article-div'>
+              <h2 className='article-header'>{article.title}</h2>
+              <p className='article-author'>{article.author}</p>
+              <p className='article-link'><a href={article.url}>{article.url}</a></p>
             </div>
           ))
         : "Loading....."}
-
+      </div>
 
     {/* old code below */}
       <header className="App-header">
@@ -78,24 +75,24 @@ function App() {
 }
 
 export default App;
+// Task: figure out where to put bootstrap links so you can override/ which css to edit
 
-
-// Level 1
+// Level 1---x done
 // # Load mock news from a JSON file (json file here);
 //  or load news directly from the HN API about a pre-set topic (e.g: React)---x
 
     //in console .url delivers the respective link to the article, use anchors!---x
 
 // # When this is done and working, create a search bar,
-//  and allow the user to search for any topic (search input + “Search” button)
+//  and allow the user to search for any topic (search input + “Search” button)---x
 
-        // search bar: input field, submit button -> form
+        // search bar: input field, submit button -> form---x
         // use new state, initially 'null', if content (truthy) render corresponding search items instead
-        // of initial 'react' search from useEffect. -> ternary logic
+        // of initial 'react' search from useEffect. -> ternary logic ---x solved via initial useState
 
     // state/effect statements for fetching the api/rendering---x
     // ternary operator to show either loading or site---x
-    // nested ternary so either site or something else shows?
+    // nested ternary so either site or something else shows?---x solved via initial useState
 
 // (Bonus) Level 2:
 // # Display a spinner or a loading message when the news are being fetched
