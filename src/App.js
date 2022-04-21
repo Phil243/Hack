@@ -15,7 +15,10 @@ function App() {
      fetch(`https://hn.algolia.com/api/v1/search?query=${document.querySelector('input').value}`)
      .then((res)=>res.json())
      .then((data)=> {setArticles(data.hits);
-      console.log(data.hits);})     
+      console.log(data.hits);})
+     .catch((err) => console.log(err));   
+
+     document.querySelector('input').value='';
   };
 
 
@@ -52,16 +55,21 @@ function App() {
               <h3 className='articleHeader'>{article.title}</h3>
               <p className='articleAuthor'>by {article.author}</p>
               <p className='articleLink'><a href={article.url}><button className='btn btn-dark'>Read the Article</button></a></p>
-              
+              <p className='articleAuthor'>{article.created_at}</p>
             </div>
             <br></br>
             </>
           ))
-        : "Loading....."}
+        : <div key='loading'>
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Loading...
+        </p>
+          </div>}
       </div>
-
+    </div>
     {/* old code below */}
-      <header className="App-header">
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -74,8 +82,8 @@ function App() {
         >
           Learn React
         </a>
-      </header>
-    </div>
+      </header> */}
+    
     </>
   );
 }
@@ -101,9 +109,9 @@ export default App;
     // nested ternary so either site or something else shows?---x solved via initial useState
 
 // (Bonus) Level 2:
-// # Display a spinner or a loading message when the news are being fetched
+// # Display a spinner or a loading message when the news are being fetched----x
 // # Handle the scenario where no news match the user search
-// # Handle potential errors from the API and alert the user
+// # Handle potential errors from the API and alert the user---x
 
 // (Bonus) Level 3:
 // # Implement pagination
