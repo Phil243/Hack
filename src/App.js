@@ -11,20 +11,20 @@ function App() {
      // console.log('I was clicked');
      // console.log(event);
      // console.log(document.querySelector('input').value);
-     fetch(`https://hn.algolia.com/api/v1/search?query=${document.querySelector('input').value}&hitsPerPage=80`)
+     fetch(`https://hn.algolia.com/api/v1/search?query=${document.querySelector('input').value}&hitsPerPage=80&tags=story`)
      .then((res)=>res.json())
      .then((data)=> {setArticles(data.hits);;
-      console.log(data.hits);
+      //console.log(data.hits);
       data.hits.length > 0 ? (setResults(true)) : (setResults(false));
-      console.log(results)})
+      //console.log(results)
+    })
      .catch((error) => alert(error)); 
 
      document.querySelector('input').value='';
   };
 
-
    useEffect(() => {
-     fetch("https://hn.algolia.com/api/v1/search?query=react&hitsPerPage=80")
+     fetch("https://hn.algolia.com/api/v1/search?query=react&hitsPerPage=80&tags=story")
        .then((res) => res.json())
        .then((data) => {
          //console.log(data.hits);
@@ -33,7 +33,6 @@ function App() {
        })
        .catch((error) =>  alert(error));
    }, []);
-
 
   return (
 <>
@@ -46,10 +45,6 @@ function App() {
     </form>
     </div>
     <div className='allArticles'>
-      {/* Conditional Rendering mit ternary operator:
-      Wenn "articles" truthy ist (also einen Wert hat)
-      wollen wir das div mit den Inhalten aus der Response zeigen
-      andernfalls zeige den String "Loading" */}
       {articles
         ? articles.map((article) => (
           <>
@@ -60,7 +55,7 @@ function App() {
               <p className='articleAuthor'>{article.created_at}</p>              
             </div>            
             <br></br>
-            </>
+          </>
           ))
         : <div key='loading' className='articleNoResultt'>
         <img src={logo} className="App-logo" alt="logo" />
@@ -70,11 +65,11 @@ function App() {
           </div>}
           {results 
           ? <div className='articleDiv'> <h5>We hope you enjoyed your stay!</h5></div> 
-          : <div className='articleNoResult'><h5>We could not find what you were looking for!</h5></div> }
+          : <div className='articleNoResult'><h5>We could not find what you were looking for!</h5></div>}
       </div>
     </div>  
-    </>
-  );
+</>
+ );
 }
 
 export default App;
