@@ -4,32 +4,34 @@ import { useState, useEffect } from "react";
 
 function App() {
   const [articles, setArticles] = useState(null);
-
+  const [results, setResults] = useState(true);
 
   function handleClick(event) {
     event.preventDefault();
-    //console.log('I was clicked');
-      //console.log(event);
+     // console.log('I was clicked');
+     // console.log(event);
      // console.log(document.querySelector('input').value);
-
-     fetch(`https://hn.algolia.com/api/v1/search?query=${document.querySelector('input').value}`)
+     fetch(`https://hn.algolia.com/api/v1/search?query=${document.querySelector('input').value}&hitsPerPage=80`)
      .then((res)=>res.json())
-     .then((data)=> {setArticles(data.hits);
-      console.log(data.hits);})
-     .catch((err) => console.log(err));   
+     .then((data)=> {setArticles(data.hits);;
+      console.log(data.hits);
+      data.hits.length > 0 ? (setResults(true)) : (setResults(false));
+      console.log(results)})
+     .catch((error) => alert(error)); 
 
      document.querySelector('input').value='';
   };
 
 
    useEffect(() => {
-     fetch("https://hn.algolia.com/api/v1/search?query=react")
+     fetch("https://hn.algolia.com/api/v1/search?query=react&hitsPerPage=80")
        .then((res) => res.json())
        .then((data) => {
          //console.log(data.hits);
          setArticles(data.hits);
+         setResults(true);
        })
-       .catch((err) => console.log(err));
+       .catch((error) =>  alert(error));
    }, []);
 
 
@@ -40,7 +42,7 @@ function App() {
     <div className='allArticles search'>
     <form>
     <input type='text' placeholder='What are you looking for...' className='searchBar form-control'></input>
-    <button className='button btn btn-dark' onClick={handleClick}>Submit search</button>
+    <button className='button btn btn-dark' onClick={handleClick}>Search</button>
     </form>
     </div>
     <div className='allArticles'>
@@ -52,44 +54,34 @@ function App() {
         ? articles.map((article) => (
           <>
             <div key={article.objectID} className='articleDiv'>
-              <h3 className='articleHeader'>{article.title}</h3>
+              <h3  className='articleHeader'>{article.title}</h3>
               <p className='articleAuthor'>by {article.author}</p>
               <p className='articleLink'><a href={article.url}><button className='btn btn-dark'>Read the Article</button></a></p>
-              <p className='articleAuthor'>{article.created_at}</p>
-            </div>
+              <p className='articleAuthor'>{article.created_at}</p>              
+            </div>            
             <br></br>
             </>
           ))
-        : <div key='loading'>
+        : <div key='loading' className='articleNoResultt'>
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Loading...
-        </p>
+        <h3>
+          Fetching Articles...
+        </h3>      
           </div>}
+          {results 
+          ? <div className='articleDiv'> <h5>We hope you enjoyed your stay!</h5></div> 
+          : <div className='articleNoResult'><h5>We could not find what you were looking for!</h5></div> }
       </div>
-    </div>
-    {/* old code below */}
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-    
+    </div>  
     </>
   );
 }
 
 export default App;
-// Task: figure out where to put bootstrap links so you can override/ which css to edit
+
+
+
+
 
 // Level 1---x done
 // # Load mock news from a JSON file (json file here);
@@ -110,7 +102,7 @@ export default App;
 
 // (Bonus) Level 2:
 // # Display a spinner or a loading message when the news are being fetched----x
-// # Handle the scenario where no news match the user search
+// # Handle the scenario where no news match the user search---x
 // # Handle potential errors from the API and alert the user---x
 
 // (Bonus) Level 3:
@@ -119,3 +111,5 @@ export default App;
 // (Bonus) Level 4:
 // # Use a library of UI components to create your news site
 //  (such as React Semantic UI, Material UI, React Bootstrap, Reactstrap)
+
+
